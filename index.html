@@ -788,7 +788,7 @@
 <script>
 // ── CONFIGURACIÓN ──────────────────────────────────────────────────────────
 // Pegá aquí la URL de tu Google Apps Script (ver instrucciones en README)
-const GOOGLE_SCRIPT_URL = "PEGAR_URL_AQUI";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyhzmAmskxPWXnptOReCpFhwWKjvI1Gh8IscQ5Ynp9DIwT2vgG5ZMdSBmmwvOv5HWzp/exec";
 // ──────────────────────────────────────────────────────────────────────────
 
 let currentStep = 0;
@@ -990,7 +990,7 @@ async function enviarFormulario() {
 
   const data = collectData();
 
-  if (GOOGLE_SCRIPT_URL === "PEGAR_URL_AQUI") {
+  if (GOOGLE_SCRIPT_URL === "https://script.google.com/macros/s/AKfycbyhzmAmskxPWXnptOReCpFhwWKjvI1Gh8IscQ5Ynp9DIwT2vgG5ZMdSBmmwvOv5HWzp/exec") {
     console.log("Datos a enviar:", data);
     setTimeout(() => {
       overlay.style.display = 'none';
