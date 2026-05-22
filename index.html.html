@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Actualización de Datos – Villares SAC</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1a2744;
+    --navy-light: #2a3d6e;
+    --gold: #c8a84b;
+    --gold-light: #f0d98a;
+    --bg: #f7f5f0;
+    --surface: #ffffff;
+    --border: #e0dbd0;
+    --text: #1a1a1a;
+    --muted: #6b6760;
+    --error: #c0392b;
+    --success: #1a6b3c;
+    --radius: 10px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0 0 60px;
+  }
+
+  header {
+    background: var(--navy);
+    padding: 32px 24px 28px;
+    text-align: center;
+  }
+
+  header .logo-text {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    color: var(--gold);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  header .subtitle {
+    font-size: 13px;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  .progress-bar-wrap {
+    background: var(--navy-light);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .progress-bar {
+    height: 4px;
+    background: var(--gold);
+    transition: width 0.4s ease;
+    width: 20%;
+  }
+
+  .step-labels {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 24px;
+    background: var(--navy-light);
+  }
+
+  .step-label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+
+  .step-label.active { color: var(--gold); }
+  .step-label.done { color: rgba(255,255,255,0.7); }
+
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+
+  .step {
+    display: none;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .step.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 28px 24px;
+    margin-top: 24px;
+  }
+
+  .section-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .field-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .field-grid.single { grid-template-columns: 1fr; }
+  .field-grid.triple { grid-template-columns: 1fr 1fr 1fr; }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .field.full { grid-column: 1 / -1; }
+
+  label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="date"],
+  input[type="number"],
+  select,
+  textarea {
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 15px;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    background: var(--surface);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--navy);
+    box-shadow: 0 0 0 3px rgba(26, 39, 68, 0.08);
+  }
+
+  input.error, select.error, textarea.error {
+    border-color: var(--error);
+  }
+
+  textarea { resize: vertical; min-height: 80px; }
+
+  .radio-group, .checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 2px;
+  }
+
+  .radio-option, .check-option {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 14px;
+    cursor: pointer;
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: 7px;
+    padding: 8px 14px;
+    transition: all 0.15s;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .radio-option:hover, .check-option:hover {
+    border-color: var(--navy);
+    background: rgba(26,39,68,0.04);
+  }
+
+  .radio-option.selected, .check-option.selected {
+    border-color: var(--navy);
+    background: rgba(26,39,68,0.06);
+    color: var(--navy);
+    font-weight: 500;
+  }
+
+  .notice {
+    background: rgba(200, 168, 75, 0.08);
+    border: 1px solid rgba(200, 168, 75, 0.3);
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 13px;
+    color: #7a5c10;
+    line-height: 1.5;
+    margin-top: 16px;
+  }
+
+  .table-section { margin-top: 20px; }
+
+  .table-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  .data-table th {
+    background: var(--navy);
+    color: rgba(255,255,255,0.85);
+    padding: 9px 12px;
+    text-align: left;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+  }
+
+  .data-table th:first-child { border-radius: 7px 0 0 0; }
+  .data-table th:last-child { border-radius: 0 7px 0 0; }
+
+  .data-table td {
+    padding: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .data-table td input {
+    border: none;
+    border-radius: 0;
+    padding: 9px 12px;
+    font-size: 13px;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .data-table tr:hover td { background: rgba(26,39,68,0.02); }
+
+  .add-row-btn {
+    background: none;
+    border: 1.5px dashed var(--border);
+    border-radius: 8px;
+    padding: 8px;
+    width: 100%;
+    font-size: 13px;
+    color: var(--muted);
+    cursor: pointer;
+    margin-top: 8px;
+    transition: all 0.15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .add-row-btn:hover { border-color: var(--navy); color: var(--navy); }
+
+  .nav-btns {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    padding: 28px 0 0;
+  }
+
+  .btn-back {
+    padding: 12px 28px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    background: none;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    color: var(--muted);
+    transition: all 0.15s;
+  }
+
+  .btn-back:hover { border-color: var(--navy); color: var(--navy); }
+
+  .btn-next {
+    padding: 12px 32px;
+    border: none;
+    border-radius: 8px;
+    background: var(--navy);
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn-next:hover { background: var(--navy-light); }
+
+  .btn-submit {
+    padding: 14px 40px;
+    border: none;
+    border-radius: 8px;
+    background: var(--gold);
+    color: var(--navy);
+    font-size: 15px;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+
+  .btn-submit:hover { background: var(--gold-light); }
+
+  .signature-area {
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    height: 120px;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 6px;
+  }
+
+  #step-resumen .resumen-grid {
+    display: grid;
+    gap: 12px;
+  }
+
+  .resumen-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    gap: 16px;
+  }
+
+  .resumen-item .rk { color: var(--muted); flex-shrink: 0; }
+  .resumen-item .rv { font-weight: 500; text-align: right; }
+
+  #success-screen {
+    display: none;
+    text-align: center;
+    padding: 60px 24px;
+  }
+
+  .success-icon {
+    width: 64px;
+    height: 64px;
+    background: rgba(26,107,60,0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 28px;
+  }
+
+  #success-screen h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    color: var(--navy);
+    margin-bottom: 10px;
+  }
+
+  #success-screen p {
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .sending-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(26,39,68,0.6);
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
+    color: white;
+    font-size: 16px;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .spinner {
+    width: 36px;
+    height: 36px;
+    border: 3px solid rgba(255,255,255,0.2);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  @media (max-width: 520px) {
+    .field-grid { grid-template-columns: 1fr; }
+    .field-grid.triple { grid-template-columns: 1fr 1fr; }
+    .section-card { padding: 20px 16px; }
+    .step-labels { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-text">Villares SAC</div>
+  <div class="subtitle">Actualización de datos personales</div>
+</header>
+
+<div class="progress-bar-wrap">
+  <div class="progress-bar" id="progressBar"></div>
+  <div class="step-labels">
+    <span class="step-label active" onclick="goToStep(0)">Datos personales</span>
+    <span class="step-label" onclick="goToStep(1)">Domicilio</span>
+    <span class="step-label" onclick="goToStep(2)">Convivientes</span>
+    <span class="step-label" onclick="goToStep(3)">Estudios y salud</span>
+    <span class="step-label" onclick="goToStep(4)">Confirmación</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- PASO 1: Datos personales -->
+  <div class="step active" id="step-0">
+    <div class="section-card">
+      <div class="section-title">Datos personales</div>
+      <div class="field-grid">
+        <div class="field full">
+          <label>Nombre completo *</label>
+          <input type="text" id="nombre" placeholder="Apellido y nombre">
+        </div>
+        <div class="field">
+          <label>DNI *</label>
+          <input type="text" id="dni" placeholder="00.000.000">
+        </div>
+        <div class="field">
+          <label>CUIL</label>
+          <input type="text" id="cuil" placeholder="20-00000000-0">
+        </div>
+        <div class="field">
+          <label>Fecha de nacimiento</label>
+          <input type="date" id="fechaNac">
+        </div>
+        <div class="field">
+          <label>Edad</label>
+          <input type="number" id="edad" placeholder="0" min="16" max="99">
+        </div>
+        <div class="field full">
+          <label>Estado civil</label>
+          <div class="radio-group" id="estadoCivil">
+            <button type="button" class="radio-option" data-value="Soltero/a">Soltero/a</button>
+            <button type="button" class="radio-option" data-value="Casado/a">Casado/a</button>
+            <button type="button" class="radio-option" data-value="Divorciado/a">Divorciado/a</button>
+            <button type="button" class="radio-option" data-value="Viudo/a">Viudo/a</button>
+            <button type="button" class="radio-option" data-value="Concubinato">Concubinato</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-title">Contacto</div>
+      <div class="field-grid">
+        <div class="field">
+          <label>Teléfono / Línea</label>
+          <input type="tel" id="telefono" placeholder="(011) 0000-0000">
+        </div>
+        <div class="field">
+          <label>Celular</label>
+          <input type="tel" id="celular" placeholder="15-0000-0000">
+        </div>
+        <div class="field full">
+          <label>Correo electrónico *</label>
+          <input type="email" id="email" placeholder="nombre@email.com">
+        </div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-title">Cargo</div>
+      <div class="field-grid">
+        <div class="field">
+          <label>Área / Sector</label>
+          <input type="text" id="area" placeholder="Ej: Administración">
+        </div>
+        <div class="field">
+          <label>Puesto</label>
+          <input type="text" id="puesto" placeholder="Ej: Operario">
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="btn-next" onclick="nextStep()">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- PASO 2: Domicilio -->
+  <div class="step" id="step-1">
+    <div class="section-card">
+      <div class="section-title">Domicilio actual</div>
+      <div class="field-grid">
+        <div class="field" style="grid-column: span 1;">
+          <label>Calle *</label>
+          <input type="text" id="calle" placeholder="Nombre de la calle">
+        </div>
+        <div class="field">
+          <label>Número *</label>
+          <input type="text" id="numero" placeholder="1234">
+        </div>
+        <div class="field full">
+          <label>Entre calles (referencia)</label>
+          <input type="text" id="entreCalles" placeholder="Ej: Av. San Martín y Belgrano">
+        </div>
+        <div class="field">
+          <label>Piso</label>
+          <input type="text" id="piso" placeholder="—">
+        </div>
+        <div class="field">
+          <label>Departamento</label>
+          <input type="text" id="depto" placeholder="—">
+        </div>
+        <div class="field">
+          <label>Localidad *</label>
+          <input type="text" id="localidad" placeholder="Ciudad o localidad">
+        </div>
+        <div class="field">
+          <label>Código Postal</label>
+          <input type="text" id="cp" placeholder="B1000">
+        </div>
+        <div class="field full">
+          <label>Provincia</label>
+          <select id="provincia">
+            <option value="">Seleccioná...</option>
+            <option>Buenos Aires</option><option>CABA</option><option>Catamarca</option>
+            <option>Chaco</option><option>Chubut</option><option>Córdoba</option>
+            <option>Corrientes</option><option>Entre Ríos</option><option>Formosa</option>
+            <option>Jujuy</option><option>La Pampa</option><option>La Rioja</option>
+            <option>Mendoza</option><option>Misiones</option><option>Neuquén</option>
+            <option>Río Negro</option><option>Salta</option><option>San Juan</option>
+            <option>San Luis</option><option>Santa Cruz</option><option>Santa Fe</option>
+            <option>Santiago del Estero</option><option>Tierra del Fuego</option><option>Tucumán</option>
+          </select>
+        </div>
+      </div>
+      <div class="notice">
+        📍 El domicilio declarado será válido para todos los efectos legales. Cualquier cambio debe informarse a RRHH con al menos 48 hs. de anticipación.
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="btn-back" onclick="prevStep()">← Volver</button>
+      <button class="btn-next" onclick="nextStep()">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- PASO 3: Convivientes y emergencias -->
+  <div class="step" id="step-2">
+    <div class="section-card">
+      <div class="section-title">Contactos de emergencia</div>
+      <div class="table-section">
+        <table class="data-table" id="tablaEmergencia">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Parentesco</th>
+              <th>Dirección</th>
+              <th>Teléfono</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="text" placeholder="Nombre completo"></td>
+              <td><input type="text" placeholder="Parentesco"></td>
+              <td><input type="text" placeholder="Dirección"></td>
+              <td><input type="tel" placeholder="Teléfono"></td>
+            </tr>
+            <tr>
+              <td><input type="text" placeholder="Nombre completo"></td>
+              <td><input type="text" placeholder="Parentesco"></td>
+              <td><input type="text" placeholder="Dirección"></td>
+              <td><input type="tel" placeholder="Teléfono"></td>
+            </tr>
+          </tbody>
+        </table>
+        <button class="add-row-btn" onclick="addRow('tablaEmergencia', 4)">+ Agregar contacto</button>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-title">Personas con quienes convive</div>
+      <div class="table-section">
+        <table class="data-table" id="tablaConvivientes">
+          <thead>
+            <tr>
+              <th>Nombre completo</th>
+              <th>Edad</th>
+              <th>DNI</th>
+              <th>Fecha de nacimiento</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="text" placeholder="Nombre"></td>
+              <td><input type="number" placeholder="Edad" min="0" max="120"></td>
+              <td><input type="text" placeholder="DNI"></td>
+              <td><input type="date"></td>
+            </tr>
+            <tr>
+              <td><input type="text" placeholder="Nombre"></td>
+              <td><input type="number" placeholder="Edad" min="0" max="120"></td>
+              <td><input type="text" placeholder="DNI"></td>
+              <td><input type="date"></td>
+            </tr>
+          </tbody>
+        </table>
+        <button class="add-row-btn" onclick="addRow('tablaConvivientes', 4)">+ Agregar conviviente</button>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-title">Personas a cargo</div>
+      <div class="field full">
+        <label>Seleccioná todas las que correspondan</label>
+        <div class="checkbox-group" id="dependientes">
+          <button type="button" class="check-option" data-value="Hijos">Hijos</button>
+          <button type="button" class="check-option" data-value="Cónyuge">Cónyuge</button>
+          <button type="button" class="check-option" data-value="Padres">Padres</button>
+          <button type="button" class="check-option" data-value="Otros">Otros</button>
+        </div>
+      </div>
+      <div class="field" style="margin-top:12px">
+        <label>Si elegiste "Otros", especificá</label>
+        <input type="text" id="dependientesOtros" placeholder="¿Quién?">
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="btn-back" onclick="prevStep()">← Volver</button>
+      <button class="btn-next" onclick="nextStep()">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- PASO 4: Estudios y salud -->
+  <div class="step" id="step-3">
+    <div class="section-card">
+      <div class="section-title">Estudios</div>
+      <div class="field-grid single">
+        <div class="field">
+          <label>Estudios alcanzados / cursos realizados</label>
+          <textarea id="estudiosAlcanzados" placeholder="Ej: Secundario completo, Tecnicatura en..."></textarea>
+        </div>
+        <div class="field">
+          <label>Estudios que está realizando actualmente</label>
+          <input type="text" id="estudiosActuales" placeholder="Ej: Licenciatura en Administración">
+        </div>
+        <div class="field">
+          <label>Días y horarios de cursada</label>
+          <input type="text" id="horariosCursada" placeholder="Ej: Lunes y miércoles de 18 a 22 hs">
+        </div>
+        <div class="field">
+          <label>¿Tiene planificado estudiar otra carrera o curso?</label>
+          <div class="radio-group" id="planEstudio">
+            <button type="button" class="radio-option" data-value="Sí">Sí</button>
+            <button type="button" class="radio-option" data-value="No">No</button>
+          </div>
+        </div>
+        <div class="field">
+          <label>¿Cuál? (si corresponde)</label>
+          <input type="text" id="planEstudioCual" placeholder="Nombre del curso o carrera">
+        </div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-title">Salud</div>
+      <div class="field-grid">
+        <div class="field full">
+          <label>¿Posee Obra Social o Prepaga?</label>
+          <div class="radio-group" id="obraSocialSiNo">
+            <button type="button" class="radio-option" data-value="Sí">Sí</button>
+            <button type="button" class="radio-option" data-value="No">No</button>
+          </div>
+        </div>
+        <div class="field full">
+          <label>¿Cuál?</label>
+          <input type="text" id="obraSocialNombre" placeholder="Nombre de la obra social o prepaga">
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="btn-back" onclick="prevStep()">← Volver</button>
+      <button class="btn-next" onclick="goToResumen()">Ver resumen →</button>
+    </div>
+  </div>
+
+  <!-- PASO 5: Resumen y confirmación -->
+  <div class="step" id="step-4">
+    <div class="section-card" id="step-resumen">
+      <div class="section-title">Resumen para confirmar</div>
+      <div class="resumen-grid" id="resumenContenido"></div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-title">Declaración jurada</div>
+      <div class="notice" style="font-size:14px; line-height:1.7;">
+        Declaro que los datos consignados son correctos y pueden ser confirmados. Conozco que es obligación del empleado notificar a la empresa cambios de domicilio y obra social.
+      </div>
+      <div class="field" style="margin-top:20px">
+        <label>Firma (escribí tu nombre completo como confirmación) *</label>
+        <input type="text" id="firmaConfirm" placeholder="Tu nombre completo">
+      </div>
+      <div class="field-grid" style="margin-top:12px">
+        <div class="field">
+          <label>DNI (confirmación)</label>
+          <input type="text" id="dniConfirm" placeholder="00.000.000">
+        </div>
+        <div class="field">
+          <label>Fecha</label>
+          <input type="date" id="fechaConfirm">
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="btn-back" onclick="prevStep()">← Volver</button>
+      <button class="btn-submit" onclick="enviarFormulario()">✓ Enviar datos</button>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<!-- Pantalla de éxito -->
+<div class="container" id="success-screen">
+  <div class="success-icon">✓</div>
+  <h2>¡Datos enviados!</h2>
+  <p>La información fue registrada correctamente.<br>El equipo de RRHH de Villares SAC ya la recibió.</p>
+</div>
+
+<!-- Overlay de envío -->
+<div class="sending-overlay" id="sendingOverlay">
+  <div class="spinner"></div>
+  <span>Enviando datos...</span>
+</div>
+
+<script>
+// ── CONFIGURACIÓN ──────────────────────────────────────────────────────────
+// Pegá aquí la URL de tu Google Apps Script (ver instrucciones en README)
+const GOOGLE_SCRIPT_URL = "PEGAR_URL_AQUI";
+// ──────────────────────────────────────────────────────────────────────────
+
+let currentStep = 0;
+const totalSteps = 5;
+const stepLabels = document.querySelectorAll('.step-label');
+
+function updateProgress() {
+  const pct = ((currentStep + 1) / totalSteps) * 100;
+  document.getElementById('progressBar').style.width = pct + '%';
+  stepLabels.forEach((el, i) => {
+    el.classList.remove('active', 'done');
+    if (i === currentStep) el.classList.add('active');
+    else if (i < currentStep) el.classList.add('done');
+  });
+}
+
+function goToStep(n) {
+  if (n > currentStep) return;
+  document.getElementById('step-' + currentStep).classList.remove('active');
+  currentStep = n;
+  document.getElementById('step-' + currentStep).classList.add('active');
+  updateProgress();
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function nextStep() {
+  if (!validateStep(currentStep)) return;
+  document.getElementById('step-' + currentStep).classList.remove('active');
+  currentStep++;
+  document.getElementById('step-' + currentStep).classList.add('active');
+  updateProgress();
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function prevStep() {
+  document.getElementById('step-' + currentStep).classList.remove('active');
+  currentStep--;
+  document.getElementById('step-' + currentStep).classList.add('active');
+  updateProgress();
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function validateStep(step) {
+  const required = {
+    0: ['nombre','email'],
+    1: ['calle','numero','localidad'],
+    4: ['firmaConfirm']
+  };
+  const fields = required[step] || [];
+  let ok = true;
+  fields.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && !el.value.trim()) {
+      el.classList.add('error');
+      el.addEventListener('input', () => el.classList.remove('error'), {once: true});
+      ok = false;
+    }
+  });
+  if (!ok) {
+    const first = document.querySelector('.error');
+    if (first) first.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+  return ok;
+}
+
+// Radio and checkbox button handlers
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.radio-group').forEach(function(group) {
+    group.querySelectorAll('.radio-option').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        group.querySelectorAll('.radio-option').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+      });
+    });
+  });
+  document.querySelectorAll('.checkbox-group').forEach(function(group) {
+    group.querySelectorAll('.check-option').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        btn.classList.toggle('selected');
+      });
+    });
+  });
+});
+
+function addRow(tableId, cols) {
+  const tbody = document.querySelector('#' + tableId + ' tbody');
+  const tr = document.createElement('tr');
+  for (let i = 0; i < cols; i++) {
+    const td = document.createElement('td');
+    const input = (i === 1 && tableId === 'tablaConvivientes')
+      ? Object.assign(document.createElement('input'), {type:'number', placeholder:'Edad'})
+      : (i === 3 && tableId === 'tablaConvivientes')
+        ? Object.assign(document.createElement('input'), {type:'date'})
+        : Object.assign(document.createElement('input'), {type: i===3 && tableId==='tablaEmergencia' ? 'tel':'text', placeholder:['Nombre completo','Parentesco / Edad','Dirección / DNI','Teléfono / Fecha nac.'][i]});
+    td.appendChild(input);
+    tr.appendChild(td);
+  }
+  tbody.appendChild(tr);
+}
+
+function getTableData(tableId) {
+  const rows = document.querySelectorAll('#' + tableId + ' tbody tr');
+  return Array.from(rows).map(row => {
+    return Array.from(row.querySelectorAll('input')).map(i => i.value.trim()).join(' | ');
+  }).filter(r => r.replace(/\|/g,'').trim()).join('\n');
+}
+
+function getRadioValue(groupId) {
+  const sel = document.querySelector('#' + groupId + ' .radio-option.selected');
+  return sel ? sel.getAttribute('data-value') : '';
+}
+
+function getCheckValues(groupId) {
+  return Array.from(document.querySelectorAll('#' + groupId + ' .check-option.selected'))
+    .map(b => b.getAttribute('data-value')).join(', ');
+}
+
+function goToResumen() {
+  const items = [
+    ['Nombre', document.getElementById('nombre').value],
+    ['DNI', document.getElementById('dni').value],
+    ['CUIL', document.getElementById('cuil').value],
+    ['Fecha de nac.', document.getElementById('fechaNac').value],
+    ['Edad', document.getElementById('edad').value],
+    ['Estado civil', getRadioValue('estadoCivil')],
+    ['Teléfono', document.getElementById('telefono').value],
+    ['Celular', document.getElementById('celular').value],
+    ['Email', document.getElementById('email').value],
+    ['Área', document.getElementById('area').value],
+    ['Puesto', document.getElementById('puesto').value],
+    ['Domicilio', [document.getElementById('calle').value, document.getElementById('numero').value].filter(Boolean).join(' ')],
+    ['Localidad', document.getElementById('localidad').value],
+    ['Provincia', document.getElementById('provincia').value],
+    ['Estudios', document.getElementById('estudiosAlcanzados').value],
+    ['Obra social', document.getElementById('obraSocialNombre').value],
+  ];
+
+  const html = items.filter(([,v]) => v).map(([k,v]) =>
+    `<div class="resumen-item"><span class="rk">${k}</span><span class="rv">${v}</span></div>`
+  ).join('');
+
+  document.getElementById('resumenContenido').innerHTML = html;
+
+  // Pre-fill fecha y DNI en confirmación
+  if (!document.getElementById('fechaConfirm').value) {
+    document.getElementById('fechaConfirm').value = new Date().toISOString().split('T')[0];
+  }
+  if (!document.getElementById('dniConfirm').value) {
+    document.getElementById('dniConfirm').value = document.getElementById('dni').value;
+  }
+
+  nextStep();
+}
+
+function collectData() {
+  return {
+    timestamp: new Date().toLocaleString('es-AR'),
+    nombre: document.getElementById('nombre').value,
+    dni: document.getElementById('dni').value,
+    cuil: document.getElementById('cuil').value,
+    fechaNacimiento: document.getElementById('fechaNac').value,
+    edad: document.getElementById('edad').value,
+    estadoCivil: getRadioValue('estadoCivil'),
+    telefono: document.getElementById('telefono').value,
+    celular: document.getElementById('celular').value,
+    email: document.getElementById('email').value,
+    area: document.getElementById('area').value,
+    puesto: document.getElementById('puesto').value,
+    calle: document.getElementById('calle').value,
+    numero: document.getElementById('numero').value,
+    entreCalles: document.getElementById('entreCalles').value,
+    piso: document.getElementById('piso').value,
+    depto: document.getElementById('depto').value,
+    localidad: document.getElementById('localidad').value,
+    cp: document.getElementById('cp').value,
+    provincia: document.getElementById('provincia').value,
+    contactosEmergencia: getTableData('tablaEmergencia'),
+    convivientes: getTableData('tablaConvivientes'),
+    personasACargo: getCheckValues('dependientes'),
+    personasACargoOtros: document.getElementById('dependientesOtros').value,
+    estudiosAlcanzados: document.getElementById('estudiosAlcanzados').value,
+    estudiosActuales: document.getElementById('estudiosActuales').value,
+    horariosCursada: document.getElementById('horariosCursada').value,
+    planEstudio: getRadioValue('planEstudio'),
+    planEstudioCual: document.getElementById('planEstudioCual').value,
+    obraSocial: getRadioValue('obraSocialSiNo'),
+    obraSocialNombre: document.getElementById('obraSocialNombre').value,
+    firma: document.getElementById('firmaConfirm').value,
+    dniConfirmacion: document.getElementById('dniConfirm').value,
+    fechaEnvio: document.getElementById('fechaConfirm').value,
+  };
+}
+
+async function enviarFormulario() {
+  if (!validateStep(4)) return;
+
+  const overlay = document.getElementById('sendingOverlay');
+  overlay.style.display = 'flex';
+
+  const data = collectData();
+
+  if (GOOGLE_SCRIPT_URL === "PEGAR_URL_AQUI") {
+    console.log("Datos a enviar:", data);
+    setTimeout(() => {
+      overlay.style.display = 'none';
+      mostrarExito();
+    }, 1500);
+    return;
+  }
+
+  try {
+    await fetch(GOOGLE_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    overlay.style.display = 'none';
+    mostrarExito();
+  } catch (err) {
+    overlay.style.display = 'none';
+    alert('Hubo un error al enviar. Por favor intentá de nuevo o contactá a RRHH.');
+    console.error(err);
+  }
+}
+
+function mostrarExito() {
+  document.querySelector('.container').style.display = 'none';
+  document.getElementById('success-screen').style.display = 'block';
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+updateProgress();
+</script>
+</body>
+</html>
