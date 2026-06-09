@@ -43,7 +43,16 @@ body::after{content:'';position:fixed;bottom:-5%;right:-8%;width:420px;height:42
 /* UNIT */
 .unit-card{background:var(--white);border-radius:var(--rad);border:1px solid var(--line);padding:22px 24px;box-shadow:var(--shadow)}
 .unit-card>p{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--sub);margin-bottom:14px}
-.unit-opts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.unit-opts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.sub-wrap{margin-top:18px;padding-top:18px;border-top:1px solid var(--line);animation:fadeIn .2s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.sub-label{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--sub);margin-bottom:12px}
+.sub-opts{display:flex;flex-wrap:wrap;gap:8px}
+.sub-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
+.sub-opt input{display:none}
+.sub-opt label{display:flex;align-items:center;justify-content:center;padding:9px 14px;border-radius:var(--rad-s);border:1.5px solid var(--line);cursor:pointer;font-size:13px;font-weight:500;color:var(--sub);background:var(--surface);transition:all .15s;text-align:center}
+.sub-opt input:checked~label{border-color:var(--g);background:rgba(0,104,100,0.08);color:var(--g);font-weight:600}
+.sub-opt label:hover{border-color:#bbb;background:var(--white)}
 .unit-opt input{display:none}
 .unit-opt label{display:flex;align-items:center;justify-content:center;gap:10px;padding:14px 16px;border-radius:var(--rad-s);border:2px solid var(--line);cursor:pointer;font-size:15px;font-weight:500;color:var(--sub);background:var(--surface);transition:all .15s}
 .unit-opt.ov input:checked~label{border-color:var(--r);background:rgba(207,20,44,0.06);color:var(--r);font-weight:600}
@@ -156,15 +165,62 @@ tbody input:focus{outline:none;border-color:var(--g)}
 <div class="page">
 
   <div class="unit-card">
-    <p>¿A qué unidad pertenecés? <span class="req">*</span></p>
+    <p>¿En qué unidad estás? <span class="req">*</span></p>
     <div class="unit-opts">
       <div class="unit-opt ov">
-        <input type="radio" name="unidad" id="uv" value="Villares" onchange="updateBadge()">
+        <input type="radio" name="unidad" id="uv" value="Villares" onchange="updateBadge();showSub()">
         <label for="uv"><span class="dot dr"></span>Villares</label>
       </div>
       <div class="unit-opt og">
-        <input type="radio" name="unidad" id="ub" value="Brugge" onchange="updateBadge()">
+        <input type="radio" name="unidad" id="ub" value="Brugge" onchange="updateBadge();showSub()">
         <label for="ub"><span class="dot dg"></span>Brugge</label>
+      </div>
+      <div class="unit-opt og">
+        <input type="radio" name="unidad" id="ung" value="New Garden" onchange="updateBadge();showSub()">
+        <label for="ung"><span class="dot dg"></span>New Garden</label>
+      </div>
+    </div>
+
+    <!-- SUB: Brugge -->
+    <div id="sub_brugge" class="sub-wrap" style="display:none">
+      <p class="sub-label">¿Sector? <span class="req">*</span></p>
+      <div class="sub-opts">
+        <div class="sub-opt">
+          <input type="radio" name="sub_brugge" id="sb_tp" value="TP">
+          <label for="sb_tp">TP</label>
+        </div>
+        <div class="sub-opt">
+          <input type="radio" name="sub_brugge" id="sb_web" value="WEB">
+          <label for="sb_web">WEB</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUB: New Garden -->
+    <div id="sub_ng" class="sub-wrap" style="display:none">
+      <p class="sub-label">¿Local? <span class="req">*</span></p>
+      <div class="sub-opts sub-grid">
+        <div class="sub-opt"><input type="radio" name="sub_ng" id="ng_anc" value="Anchorena"><label for="ng_anc">Anchorena</label></div>
+        <div class="sub-opt"><input type="radio" name="sub_ng" id="ng_aya" value="Ayacucho"><label for="ng_aya">Ayacucho</label></div>
+        <div class="sub-opt"><input type="radio" name="sub_ng" id="ng_cha" value="Charcas"><label for="ng_cha">Charcas</label></div>
+        <div class="sub-opt"><input type="radio" name="sub_ng" id="ng_jur" value="Juramento"><label for="ng_jur">Juramento</label></div>
+        <div class="sub-opt"><input type="radio" name="sub_ng" id="ng_lh" value="Las Heras"><label for="ng_lh">Las Heras</label></div>
+        <div class="sub-opt"><input type="radio" name="sub_ng" id="ng_rp" value="Rodríguez Peña"><label for="ng_rp">Rodríguez Peña</label></div>
+        <div class="sub-opt"><input type="radio" name="sub_ng" id="ng_sal" value="Salguero"><label for="ng_sal">Salguero</label></div>
+        <div class="sub-opt"><input type="radio" name="sub_ng" id="ng_so" value="Scalabrini Ortiz"><label for="ng_so">Scalabrini Ortiz</label></div>
+        <div class="sub-opt"><input type="radio" name="sub_ng" id="ng_tal" value="Talcahuano"><label for="ng_tal">Talcahuano</label></div>
+        <div class="sub-opt"><input type="radio" name="sub_ng" id="ng_zab" value="Zabala"><label for="ng_zab">Zabala</label></div>
+        <div class="sub-opt"><input type="radio" name="sub_ng" id="ng_pam" value="Pampa"><label for="ng_pam">Pampa</label></div>
+        <div class="sub-opt"><input type="radio" name="sub_ng" id="ng_rio" value="Riobamba"><label for="ng_rio">Riobamba</label></div>
+        <div class="sub-opt"><input type="radio" name="sub_ng" id="ng_ll" value="La Lucila"><label for="ng_ll">La Lucila</label></div>
+        <div class="sub-opt"><input type="radio" name="sub_ng" id="ng_mar" value="Martínez"><label for="ng_mar">Martínez</label></div>
+        <div class="sub-opt"><input type="radio" name="sub_ng" id="ng_roc" value="Roca"><label for="ng_roc">Roca</label></div>
+        <div class="sub-opt"><input type="radio" name="sub_ng" id="ng_si" value="San Isidro"><label for="ng_si">San Isidro</label></div>
+        <div class="sub-opt"><input type="radio" name="sub_ng" id="ng_uga" value="Ugarte"><label for="ng_uga">Ugarte</label></div>
+        <div class="sub-opt"><input type="radio" name="sub_ng" id="ng_tor" value="Tortugas"><label for="ng_tor">Tortugas</label></div>
+        <div class="sub-opt"><input type="radio" name="sub_ng" id="ng_op" value="Office Park"><label for="ng_op">Office Park</label></div>
+        <div class="sub-opt"><input type="radio" name="sub_ng" id="ng_pc" value="P. Champagnat"><label for="ng_pc">P. Champagnat</label></div>
+        <div class="sub-opt"><input type="radio" name="sub_ng" id="ng_pp" value="P. Pilar"><label for="ng_pp">P. Pilar</label></div>
       </div>
     </div>
   </div>
@@ -356,6 +412,11 @@ function updateBadge(){
   const b=document.getElementById('hbadge');
   if(!v){b.style.display='none';return;}
   b.textContent=v;b.className=v==='Villares'?'bv':'bg';
+}
+function showSub(){
+  const v=document.querySelector('input[name="unidad"]:checked')?.value;
+  document.getElementById('sub_brugge').style.display=v==='Brugge'?'block':'none';
+  document.getElementById('sub_ng').style.display=v==='New Garden'?'block':'none';
 }
 
 function buscarMapa(){
