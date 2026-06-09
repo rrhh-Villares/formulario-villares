@@ -405,7 +405,7 @@ tbody input:focus{outline:none;border-color:var(--g)}
 </div>
 
 <script>
-const SCRIPT_URL="PEGAR_URL_AQUI";
+const SCRIPT_URL="https://script.google.com/macros/s/AKfycbybLiYVlFmnao5_80ylXd78Xl6Mcs3lwe3nXnj98fpdpinDbeVH9ndnMp-mwMON-4rAcA/exec";
 
 function updateBadge(){
   const v=document.querySelector('input[name="unidad"]:checked')?.value;
@@ -522,7 +522,7 @@ async function enviar(){
     firma2:document.getElementById('sig2').toDataURL('image/png')
   };
 
-  if(SCRIPT_URL==="PEGAR_URL_AQUI"){showStatus('⚠️ Formulario listo. Configurá la URL del Apps Script para activar el envío.','err');return;}
+  if(SCRIPT_URL==="https://script.google.com/macros/s/AKfycbybLiYVlFmnao5_80ylXd78Xl6Mcs3lwe3nXnj98fpdpinDbeVH9ndnMp-mwMON-4rAcA/exec"){showStatus('⚠️ Formulario listo. Configurá la URL del Apps Script para activar el envío.','err');return;}
   const btn=document.querySelector('.submit-btn');btn.textContent='Enviando...';btn.disabled=true;
   try{
     await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
