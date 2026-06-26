@@ -105,6 +105,13 @@ tbody input:focus{outline:none;border-color:var(--g)}
 .radio-row input[type=radio]{accent-color:var(--g);width:15px;height:15px}
 .radio-txt{flex:1;min-width:150px;border:1.5px solid var(--line);border-radius:var(--rad-s);padding:9px 12px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--ink)}
 .radio-txt:focus{outline:none;border-color:var(--g)}
+/* JURAMENTO */
+.juramento-wrap{background:rgba(207,20,44,0.05);border:1.5px solid var(--r30);border-radius:var(--rad-s);padding:16px 18px;display:flex;align-items:flex-start;gap:12px;margin-bottom:18px}
+.juramento-wrap input[type=checkbox]{accent-color:var(--r);width:18px;height:18px;flex-shrink:0;margin-top:2px;cursor:pointer}
+.juramento-wrap label{font-size:13px;color:var(--ink);line-height:1.6;cursor:pointer}
+.juramento-wrap label strong{color:var(--r)}
+.firma-info{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:14px}
+.firma-info .f input{background:var(--surface)}
 .submit-wrap{background:var(--white);border-radius:var(--rad);border:1px solid var(--line);padding:26px;box-shadow:var(--shadow)}
 .submit-btn{background:var(--r);color:#fff;border:none;border-radius:var(--rad-s);padding:14px 36px;font-size:15px;font-weight:700;cursor:pointer;width:100%;font-family:'DM Sans',sans-serif;transition:background .15s}
 .submit-btn:hover{background:#b01226}
@@ -118,6 +125,7 @@ tbody input:focus{outline:none;border-color:var(--g)}
   .unit-card{padding:18px 16px}
   .unit-opts{grid-template-columns:1fr}
   .row{grid-template-columns:1fr}
+  .firma-info{grid-template-columns:1fr}
   .submit-wrap{padding:18px 16px}
 }
 </style>
@@ -141,6 +149,7 @@ tbody input:focus{outline:none;border-color:var(--g)}
 
 <div class="page">
 
+  <!-- UNIDAD -->
   <div class="unit-card">
     <p>¿En qué unidad estás? <span class="req">*</span></p>
     <div class="unit-opts">
@@ -192,6 +201,7 @@ tbody input:focus{outline:none;border-color:var(--g)}
     </div>
   </div>
 
+  <!-- DATOS PERSONALES -->
   <div class="card">
     <div class="card-head"><div class="card-icon cr">👤</div><h2>Datos personales</h2></div>
     <div class="card-body">
@@ -213,13 +223,15 @@ tbody input:focus{outline:none;border-color:var(--g)}
       <div class="row"><div class="f"><label>Puesto / Sector <span class="req">*</span></label><input type="text" id="puesto" placeholder="Ej: Producción"></div></div>
       <div class="sep"></div>
       <div class="row">
-        <div class="f"><label>Teléfono línea</label><input type="tel" id="tel_linea" placeholder="011-XXXX-XXXX"></div>
+        <div class="f"><label>Teléfono línea <span class="req">*</span></label><input type="tel" id="tel_linea" placeholder="011-XXXX-XXXX"></div>
         <div class="f"><label>Celular <span class="req">*</span></label><input type="tel" id="tel_celular" placeholder="11-XXXX-XXXX"></div>
+        <div class="f"><label>Teléfono alternativo</label><input type="tel" id="tel_alt" placeholder="Otro teléfono de contacto"></div>
       </div>
       <div class="row"><div class="f" style="grid-column:1/-1"><label>Mail <span class="req">*</span></label><input type="email" id="mail" placeholder="ejemplo@correo.com"></div></div>
     </div>
   </div>
 
+  <!-- DOMICILIO -->
   <div class="card">
     <div class="card-head"><div class="card-icon cg">📍</div><h2>Domicilio actual</h2></div>
     <div class="card-body">
@@ -227,7 +239,7 @@ tbody input:focus{outline:none;border-color:var(--g)}
         <div class="f" style="grid-column:span 2"><label>Calle <span class="req">*</span></label><input type="text" id="calle"></div>
         <div class="f"><label>N° <span class="req">*</span></label><input type="text" id="numero"></div>
       </div>
-      <div class="row"><div class="f" style="grid-column:1/-1"><label>Entre calles</label><input type="text" id="entre_calles" placeholder="Ej: Rivadavia y Sarmiento"></div></div>
+      <div class="row"><div class="f" style="grid-column:1/-1"><label>Entre calles <span class="req">*</span></label><input type="text" id="entre_calles" placeholder="Ej: Rivadavia y Sarmiento"></div></div>
       <div class="row">
         <div class="f"><label>Piso</label><input type="text" id="piso"></div>
         <div class="f"><label>Dpto.</label><input type="text" id="dpto"></div>
@@ -236,6 +248,11 @@ tbody input:focus{outline:none;border-color:var(--g)}
       <div class="row">
         <div class="f"><label>Provincia <span class="req">*</span></label><input type="text" id="provincia" value="Buenos Aires"></div>
         <div class="f"><label>Código Postal <span class="req">*</span></label><input type="text" id="cp"></div>
+      </div>
+      <div class="row">
+        <div class="f" style="grid-column:1/-1"><label>Situación habitacional <span class="req">*</span></label>
+          <select id="sit_hab"><option value="">Seleccionar...</option><option>Propietario/a</option><option>Inquilino/a</option><option>Vive con familia</option><option>Otra</option></select>
+        </div>
       </div>
       <div class="sep"></div>
       <div class="map-row">
@@ -249,13 +266,15 @@ tbody input:focus{outline:none;border-color:var(--g)}
     </div>
   </div>
 
+  <!-- FIRMA DOMICILIO -->
   <div class="card">
     <div class="card-head"><div class="card-icon cr">✍️</div><h2>Declaración de domicilio</h2></div>
     <div class="card-body">
       <div class="legal">Declaro que el domicilio consignado es correcto y que se deberá tomar como válido para todos los efectos legales, debiendo informar cualquier cambio de domicilio con <strong>48 hs. de anticipación</strong> a la fecha de mudanza de forma personal en la oficina de RRHH.</div>
-      <div class="row">
+      <div class="firma-info">
         <div class="f"><label>Aclaración <span class="req">*</span></label><input type="text" id="aclaracion1" placeholder="Nombre en imprenta"></div>
-        <div class="f"><label>Fecha</label><input type="date" id="fecha1"></div>
+        <div class="f"><label>Lugar <span class="req">*</span></label><input type="text" id="lugar1" placeholder="Ej: Ciudad Autónoma de Buenos Aires"></div>
+        <div class="f"><label>Fecha <span class="req">*</span></label><input type="date" id="fecha1"></div>
       </div>
       <span class="sig-label">Firma <span class="req">*</span> — dibujá con el dedo o el mouse</span>
       <canvas id="sig1" height="150"></canvas>
@@ -263,32 +282,34 @@ tbody input:focus{outline:none;border-color:var(--g)}
     </div>
   </div>
 
+  <!-- EMERGENCIAS -->
   <div class="card">
     <div class="card-head"><div class="card-icon cr">🚨</div><h2>Contactos de emergencia</h2></div>
     <div class="card-body">
       <div class="tbl">
-        <table><thead><tr><th>Nombre</th><th>Parentesco</th><th>Dirección</th><th>Teléfono</th><th style="width:32px"></th></tr></thead>
+        <table><thead><tr><th>Nombre completo</th><th>Parentesco</th><th>Dirección</th><th>Teléfono</th><th style="width:32px"></th></tr></thead>
         <tbody id="emergBody"><tr>
-          <td><input type="text" placeholder="Nombre"></td>
-          <td><input type="text" placeholder="Parentesco"></td>
-          <td><input type="text" placeholder="Dirección"></td>
-          <td><input type="text" placeholder="Teléfono"></td>
+          <td><input type="text" placeholder="Nombre completo *"></td>
+          <td><input type="text" placeholder="Parentesco *"></td>
+          <td><input type="text" placeholder="Dirección *"></td>
+          <td><input type="text" placeholder="Teléfono *"></td>
           <td><button class="del" onclick="delRow(this)">✕</button></td>
         </tr></tbody></table>
       </div>
-      <button class="add-btn" onclick="addRow('emergBody',['Nombre','Parentesco','Dirección','Teléfono'])">+ Agregar contacto</button>
+      <button class="add-btn" onclick="addRow('emergBody',['Nombre completo','Parentesco','Dirección','Teléfono'])">+ Agregar contacto</button>
     </div>
   </div>
 
+  <!-- CONVIVIENTES -->
   <div class="card">
-    <div class="card-head"><div class="card-icon cg">🏠</div><h2>Personas con quienes vive</h2></div>
+    <div class="card-head"><div class="card-icon cg">🏠</div><h2>Personas con quienes vive <span class="req">*</span></h2></div>
     <div class="card-body">
       <div class="tbl">
         <table><thead><tr><th>Nombre completo</th><th style="width:65px">Edad</th><th>DNI</th><th>Fecha nac.</th><th style="width:32px"></th></tr></thead>
         <tbody id="convivBody"><tr>
-          <td><input type="text" placeholder="Nombre"></td>
+          <td><input type="text" placeholder="Nombre *"></td>
           <td><input type="number" placeholder="—"></td>
-          <td><input type="text" placeholder="DNI"></td>
+          <td><input type="text" placeholder="DNI *"></td>
           <td><input type="date"></td>
           <td><button class="del" onclick="delRow(this)">✕</button></td>
         </tr></tbody></table>
@@ -297,6 +318,7 @@ tbody input:focus{outline:none;border-color:var(--g)}
     </div>
   </div>
 
+  <!-- DEPENDIENTES -->
   <div class="card">
     <div class="card-head"><div class="card-icon cg">👨‍👩‍👧</div><h2>Personas que dependen de usted</h2></div>
     <div class="card-body">
@@ -310,28 +332,37 @@ tbody input:focus{outline:none;border-color:var(--g)}
     </div>
   </div>
 
+  <!-- ESTUDIOS -->
   <div class="card">
     <div class="card-head"><div class="card-icon cg">🎓</div><h2>Estudios</h2></div>
     <div class="card-body">
-      <div class="row"><div class="f" style="grid-column:1/-1"><label>Estudios alcanzados / cursos realizados</label><input type="text" id="est_ok"></div></div>
-      <div class="row"><div class="f" style="grid-column:1/-1"><label>Estudios en curso actualmente</label><input type="text" id="est_now"></div></div>
-      <div class="row"><div class="f" style="grid-column:1/-1"><label>Días y horarios de cursada</label><input type="text" id="est_hs"></div></div>
+      <div class="row"><div class="f" style="grid-column:1/-1"><label>Estudios alcanzados / cursos realizados <span class="req">*</span></label><input type="text" id="est_ok"></div></div>
+      <div class="row"><div class="f" style="grid-column:1/-1"><label>Estudios en curso actualmente <span class="req">*</span></label><input type="text" id="est_now" placeholder="Indicar N/A si no aplica"></div></div>
+      <div class="row"><div class="f" style="grid-column:1/-1"><label>Días y horarios de cursada <span class="req">*</span></label><input type="text" id="est_hs" placeholder="Indicar N/A si no aplica"></div></div>
       <div class="f">
-        <label>¿Tiene planificado estudiar otra carrera o curso?</label>
+        <label>¿Tiene planificado estudiar otra carrera o curso? <span class="req">*</span></label>
         <div class="radio-row">
           <label><input type="radio" name="plan" value="SI"> Sí</label>
           <label><input type="radio" name="plan" value="NO"> No</label>
           <input type="text" class="radio-txt" id="plan_cual" placeholder="¿Cuál?">
         </div>
       </div>
+      <div class="sep"></div>
+      <div class="f">
+        <label>Certificado de alumno regular</label>
+        <p style="font-size:12px;color:var(--sub);margin-bottom:8px">Si estás cursando actualmente, adjuntá tu certificado (PDF o imagen, máx. 5MB)</p>
+        <input type="file" id="certificado" accept=".pdf,.jpg,.jpeg,.png" style="border:1.5px dashed var(--g30);border-radius:var(--rad-s);padding:10px 12px;font-size:13px;font-family:'DM Sans',sans-serif;width:100%;cursor:pointer;background:var(--surface)">
+        <span id="cert_status" style="font-size:12px;color:var(--g);margin-top:4px;display:none">✅ Archivo seleccionado</span>
+      </div>
     </div>
   </div>
 
+  <!-- OBRA SOCIAL -->
   <div class="card">
     <div class="card-head"><div class="card-icon cr">🏥</div><h2>Obra social / Prepaga</h2></div>
     <div class="card-body">
       <div class="f">
-        <label>¿Posee obra social o prepaga?</label>
+        <label>¿Posee obra social o prepaga? <span class="req">*</span></label>
         <div class="radio-row">
           <label><input type="radio" name="os" value="SI"> Sí</label>
           <label><input type="radio" name="os" value="NO"> No</label>
@@ -341,18 +372,23 @@ tbody input:focus{outline:none;border-color:var(--g)}
     </div>
   </div>
 
+  <!-- DECLARACIÓN FINAL -->
   <div class="card">
     <div class="card-head"><div class="card-icon cr">📋</div><h2>Declaración final</h2></div>
     <div class="card-body">
       <div class="legal">Hago constar que los datos arriba detallados son ciertos y pueden ser confirmados.<br><strong>ES OBLIGACIÓN DEL EMPLEADO NOTIFICAR A LA EMPRESA ANTE CAMBIOS DE DOMICILIO Y OBRA SOCIAL.</strong></div>
-      <div class="row">
-        <div class="f" style="grid-column:span 2">
-          <span class="sig-label">Firma final <span class="req">*</span></span>
-          <canvas id="sig2" height="120"></canvas>
-          <button class="btn-clear" onclick="clearSig('sig2')">✕ Borrar</button>
-        </div>
-        <div class="f"><label>Fecha</label><input type="date" id="fecha2"></div>
+      <div class="juramento-wrap">
+        <input type="checkbox" id="juramento">
+        <label for="juramento">Declaro bajo juramento que <strong>todos los datos consignados en este formulario son verídicos, completos y actualizados</strong>, y me comprometo a notificar cualquier modificación a la brevedad. Entiendo que la falsedad de los datos puede tener consecuencias legales y laborales.</label>
       </div>
+      <div class="firma-info">
+        <div class="f"><label>Aclaración <span class="req">*</span></label><input type="text" id="aclaracion2" placeholder="Nombre en imprenta"></div>
+        <div class="f"><label>Lugar <span class="req">*</span></label><input type="text" id="lugar2" placeholder="Ej: Ciudad Autónoma de Buenos Aires"></div>
+        <div class="f"><label>Fecha <span class="req">*</span></label><input type="date" id="fecha2"></div>
+      </div>
+      <span class="sig-label">Firma final <span class="req">*</span> — dibujá con el dedo o el mouse</span>
+      <canvas id="sig2" height="120"></canvas>
+      <button class="btn-clear" onclick="clearSig('sig2')">✕ Borrar</button>
     </div>
   </div>
 
@@ -364,7 +400,7 @@ tbody input:focus{outline:none;border-color:var(--g)}
 </div>
 
 <script>
-const SCRIPT_URL="https://script.google.com/macros/s/AKfycbx9UpkuELxpJJTFYPht2x0yrtgG1WAdq8OIdXYPl0zEB3Xd-ML6RoDkK0vrkYaybN5qDg/exec";
+const SCRIPT_URL="https://script.google.com/macros/s/AKfycbyqlt9F3euHIHIQ96I9iL8ddllPooWsvSa3sSesF5G6X3pJVCug-swuGUvaFpLIoxG0gQ/exec";
 
 function updateBadge(){
   const v=document.querySelector('input[name="unidad"]:checked')?.value;
@@ -431,15 +467,23 @@ async function enviar(){
   const subNg=document.querySelector('input[name="sub_ng"]:checked')?.value||'';
   if(unidad==='Brugge'&&!subBrugge){showStatus('Seleccioná el sector de Brugge (TP o WEB).','err');return;}
   if(unidad==='New Garden'&&!subNg){showStatus('Seleccioná el local de New Garden.','err');return;}
-  const req=['nombre','fecha_nac','estado_civil','nacionalidad','tipo_doc','nro_doc','cuil','puesto','tel_celular','mail','calle','numero','localidad','provincia','cp','aclaracion1'];
+
+  const req=['nombre','fecha_nac','estado_civil','nacionalidad','tipo_doc','nro_doc','cuil','puesto','tel_linea','tel_celular','mail','calle','numero','entre_calles','localidad','provincia','cp','sit_hab','aclaracion1','lugar1','fecha1','est_ok','est_now','est_hs','aclaracion2','lugar2','fecha2'];
   let bad=null;
   req.forEach(id=>{const el=document.getElementById(id);if(!el.value.trim()){el.classList.add('bad');if(!bad)bad=el;}else el.classList.remove('bad');});
   if(bad){bad.scrollIntoView({behavior:'smooth',block:'center'});bad.focus();showStatus('Completá todos los campos obligatorios (*).','err');return;}
+
+  const plan=document.querySelector('input[name="plan"]:checked')?.value;
+  if(!plan){showStatus('Indicá si tenés planificado estudiar otra carrera o curso.','err');return;}
+  const os=document.querySelector('input[name="os"]:checked')?.value;
+  if(!os){showStatus('Indicá si posees obra social o prepaga.','err');return;}
+
   if(isBlank('sig1')){showStatus('Falta la firma en la declaración de domicilio.','err');return;}
   if(isBlank('sig2')){showStatus('Falta la firma final.','err');return;}
+  if(!document.getElementById('juramento').checked){showStatus('Debés marcar la declaración jurada para continuar.','err');return;}
 
   const data={
-    unidad, sub_unidad: subBrugge||subNg||'',
+    unidad, sub_unidad:subBrugge||subNg||'',
     timestamp:new Date().toLocaleString('es-AR'),
     nombre:document.getElementById('nombre').value,
     fecha_nac:document.getElementById('fecha_nac').value,
@@ -451,6 +495,7 @@ async function enviar(){
     puesto:document.getElementById('puesto').value,
     tel_linea:document.getElementById('tel_linea').value,
     tel_celular:document.getElementById('tel_celular').value,
+    tel_alt:document.getElementById('tel_alt').value,
     mail:document.getElementById('mail').value,
     calle:document.getElementById('calle').value,
     numero:document.getElementById('numero').value,
@@ -460,8 +505,10 @@ async function enviar(){
     localidad:document.getElementById('localidad').value,
     provincia:document.getElementById('provincia').value,
     cp:document.getElementById('cp').value,
+    sit_hab:document.getElementById('sit_hab').value,
     map_ref:document.getElementById('map_ref').value,
-    aclaracion:document.getElementById('aclaracion1').value,
+    aclaracion1:document.getElementById('aclaracion1').value,
+    lugar1:document.getElementById('lugar1').value,
     fecha1:document.getElementById('fecha1').value,
     firma1:document.getElementById('sig1').toDataURL('image/png'),
     emergencias:tblVal('emergBody'),
@@ -474,15 +521,30 @@ async function enviar(){
     est_ok:document.getElementById('est_ok').value,
     est_now:document.getElementById('est_now').value,
     est_hs:document.getElementById('est_hs').value,
-    plan_estudio:document.querySelector('input[name="plan"]:checked')?.value||'',
+    plan_estudio:plan,
     plan_cual:document.getElementById('plan_cual').value,
-    obra_social:document.querySelector('input[name="os"]:checked')?.value||'',
+    obra_social:os,
     os_cual:document.getElementById('os_cual').value,
+    aclaracion2:document.getElementById('aclaracion2').value,
+    lugar2:document.getElementById('lugar2').value,
     fecha2:document.getElementById('fecha2').value,
-    firma2:document.getElementById('sig2').toDataURL('image/png')
+    firma2:document.getElementById('sig2').toDataURL('image/png'),
+    juramento:'Sí, declarado bajo juramento'
   };
 
-  if(SCRIPT_URL==="PEGAR_URL_AQUI"){showStatus('⚠️ Configurá la URL del Apps Script para activar el envío.','err');return;}
+  // Certificado
+  const certFile = document.getElementById('certificado').files[0];
+  let certBase64 = '', certName = '', certType = '';
+  if(certFile){
+    if(certFile.size > 5*1024*1024){showStatus('El certificado no puede superar 5MB.','err');return;}
+    certBase64 = await new Promise(res=>{const r=new FileReader();r.onload=e=>res(e.target.result.split(',')[1]);r.readAsDataURL(certFile);});
+    certName = certFile.name;
+    certType = certFile.type;
+  }
+  data.cert_base64 = certBase64;
+  data.cert_name = certName;
+  data.cert_type = certType;
+
   const btn=document.querySelector('.submit-btn');btn.textContent='Enviando...';btn.disabled=true;
   try{
     await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
